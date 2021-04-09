@@ -36,6 +36,7 @@ public class CommandListener extends ListenerAdapter {
             for (int i = 0; i < Main.commandList.size(); i++) {
                 if (Main.commandList.get(i).getName().equals(args[0])) {
                     Main.commandList.get(i).run(realArgs, event);
+                    break;
                 }
             }
         }
