@@ -9,12 +9,12 @@ public class DataManager {
     public Connection connection;
     public DatabaseMetaData metaData;
 
-    public DataManager() {
+    public DataManager(String path) {
 
-        System.out.println("Connecting to main database...");
+        System.out.println("Connecting to database " + path);
 
         try {
-            if (DataManager.class.getResource("/data/userData.db") == null) {
+            if (DataManager.class.getResource(path) == null) {
                 throw new NullPointerException("Data file was null");
             }
             URL url = DataManager.class.getResource("/data/userData.db");

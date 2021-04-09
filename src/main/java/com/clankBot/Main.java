@@ -27,7 +27,8 @@ public class Main {
         new Main();
     }
 
-    public static DataManager dataManager;
+    public static DataManager userDataManager;
+    public static DataManager serverDataManager;
 
     public Main() {
         builder = JDABuilder.create(GatewayIntent.GUILD_MESSAGES,
@@ -43,10 +44,11 @@ public class Main {
                 GatewayIntent.GUILD_PRESENCES,
                 GatewayIntent.GUILD_VOICE_STATES,
                 GatewayIntent.GUILD_WEBHOOKS);
-        builder.setToken("ODI5NjQ4MTIwOTAzMjM3NjMy.YG7MBg.YHsaPWprgtnC9MjsjE6VPs8yIF8");
+        builder.setToken("ODI5NjQ4MTIwOTAzMjM3NjMy.YG7MBg.9VM252X_JY701_JXSF_D-Pmy03k");
         builder.addEventListeners(new CommandListener(this));
         builder.setActivity(Activity.listening(prefix + "help"));
-        dataManager = new DataManager();
+        userDataManager = new DataManager("/data/userData.db");
+        serverDataManager = new DataManager("/data/serverData.db");
         try {
             builder.build();
         } catch (LoginException e) {
@@ -65,5 +67,15 @@ public class Main {
         permissions.add(Permission.MESSAGE_WRITE);
         commandList.add(new PingCommand("ping", Category.MiscCommand, permissions));
         commandList.add(new HelpCommand("help", Category.MiscCommand, permissions));
+    }
+
+    public static ArrayList<Command> getCommandsForCategory(Category category) {
+        ArrayList<Command> returnList = new ArrayList<>();
+        for (int i = 0; i < commandList.size(); i++) {
+            if (commandList.get(i).getCategory() == category) {
+                returnList.add(commandList.get(i));
+            }
+        }
+        return returnList;
     }
 }
