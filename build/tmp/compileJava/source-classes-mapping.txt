@@ -6,10 +6,11 @@ com/clankBot/enums/util/Category.java
  com.clankBot.enums.util.Category$2
  com.clankBot.enums.util.Category$3
  com.clankBot.enums.util.Category$4
-com/clankBot/commands/HelpCommand.java
- com.clankBot.commands.HelpCommand
+ com.clankBot.enums.util.Category$5
 com/clankBot/commands/Command.java
  com.clankBot.commands.Command
+com/clankBot/commands/HelpCommand.java
+ com.clankBot.commands.HelpCommand
 com/clankBot/Main.java
  com.clankBot.Main
 com/clankBot/data/DataManager.java
