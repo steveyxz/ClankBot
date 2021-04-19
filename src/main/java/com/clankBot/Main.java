@@ -3,24 +3,28 @@ package com.clankBot;
 import com.clankBot.commands.Command;
 import com.clankBot.commands.HelpCommand;
 import com.clankBot.commands.PingCommand;
+import com.clankBot.commands.ServerPrefixCommand;
 import com.clankBot.data.DataManager;
 import com.clankBot.enums.util.Category;
 import com.clankBot.listeners.CommandListener;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
+import java.awt.*;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main {
 
     public static JDABuilder builder;
     public static String prefix = "c-";
-
+ 
     public static ArrayList<Command> commandList = new ArrayList<>();
 
     public static void main(String[] args) throws MalformedURLException, SQLException {
@@ -44,9 +48,10 @@ public class Main {
                 GatewayIntent.GUILD_PRESENCES,
                 GatewayIntent.GUILD_VOICE_STATES,
                 GatewayIntent.GUILD_WEBHOOKS);
-        builder.setToken("ODI5NjQ4MTIwOTAzMjM3NjMy.YG7MBg.9VM252X_JY701_JXSF_D-Pmy03k");
-        builder.addEventListeners(new CommandListener(this));
-        builder.setActivity(Activity.listening(prefix + "help"));
+        builder.setToken("ODI5NjQ4MTIwOTAzMjM3NjMy.YG7MBg.fvPaq4zrSnPLq0u0wVJO-RL7EF4")
+                .addEventListeners(new CommandListener(this))
+                .setActivity(Activity.listening(prefix + "help"))
+                .setStatus(OnlineStatus.IDLE);
         userDataManager = new DataManager("/data/userData.db");
         serverDataManager = new DataManager("/data/serverData.db");
         try {
@@ -54,8 +59,14 @@ public class Main {
         } catch (LoginException e) {
             e.printStackTrace();
         }
+
+        initPrefix();
         initCommands();
         initDatabase();
+    }
+
+    private void initPrefix() {
+
     }
 
     private void initDatabase() {
@@ -65,8 +76,10 @@ public class Main {
     private void initCommands() {
         ArrayList<Permission> permissions = new ArrayList<>();
         permissions.add(Permission.MESSAGE_WRITE);
-        commandList.add(new PingCommand("ping", Category.MiscCommand, permissions));
-        commandList.add(new HelpCommand("help", Category.MiscCommand, permissions));
+        commandList.add(new PingCommand("ping", Category.MiscCommand, permissions, "ping"));
+        commandList.add(new HelpCommand("help", Category.MiscCommand, permissions, "help [category or command]"));
+        permissions.add(Permission.MANAGE_SERVER);
+        commandList.add(new ServerPrefixCommand("setprefix", Category.ServerCommand, permissions, "setprefix [prefix]"));
     }
 
     public static ArrayList<Command> getCommandsForCategory(Category category) {
@@ -77,5 +90,10 @@ public class Main {
             }
         }
         return returnList;
+    }
+
+    public static Color generateRandomColor() {
+        Random r = new Random();
+        return new Color(r.nextInt(224), r.nextInt(224), r.nextInt(224));
     }
 }

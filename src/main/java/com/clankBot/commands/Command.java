@@ -11,11 +11,13 @@ public abstract class Command {
     protected String name;
     protected Category category;
     protected ArrayList<Permission> requiredPermissions;
+    protected String usage;
 
-    public Command(String name, Category category, ArrayList<Permission> requiredPermissions) {
+    public Command(String name, Category category, ArrayList<Permission> requiredPermissions, String usage) {
         this.name = name;
         this.category = category;
         this.requiredPermissions = requiredPermissions;
+        this.usage = usage;
     }
 
     public abstract void run(String[] args, GuildMessageReceivedEvent e);

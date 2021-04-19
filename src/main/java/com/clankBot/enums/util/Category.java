@@ -23,6 +23,10 @@ public enum Category {
     MiscCommand {
         @Override
         public String toString() { return "Misc Commands"; }
+    },
+    ServerCommand {
+        @Override
+        public String toString() { return "Server Commands"; }
     };
 
     public static String convCatToCommand(Category category) {
@@ -38,6 +42,9 @@ public enum Category {
             }
             case ModerationCommand -> {
                 return "mod";
+            }
+            case ServerCommand -> {
+                return "server";
             }
         }
         return "";
@@ -56,6 +63,9 @@ public enum Category {
             }
             case "misc" -> {
                 return Category.MiscCommand;
+            }
+            case "server" -> {
+                return Category.ServerCommand;
             }
         }
         return Category.MiscCommand;

@@ -7,14 +7,27 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PingCommand extends Command {
-    public PingCommand(String name, Category category, ArrayList<Permission> requiredPermissions) {
-        super(name, category, requiredPermissions);
+    public PingCommand(String name, Category category, ArrayList<Permission> requiredPermissions, String usage) {
+        super(name, category, requiredPermissions, usage);
     }
 
     @Override
     public void run(String[] args, GuildMessageReceivedEvent e) {
+        if (e.getAuthor().isBot()) {
+            return;
+        }
+        for (Permission perm:
+             requiredPermissions) {
+            if (Objects.requireNonNull(e.getMember()).getPermissions().contains(Permission.ADMINISTRATOR)) {
+                break;
+            }
+            if (!Objects.requireNonNull(e.getMember()).getPermissions().contains(perm)) {
+                return;
+            }
+        }
         try {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setColor(Color.CYAN);

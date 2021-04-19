@@ -53,6 +53,16 @@ public class DataManager {
         }
     }
 
+    public boolean doesTableExist(String tableName) {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeQuery("SELECT * FROM " + tableName);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
     /**
      * This method inserts a row into a table.
      *
@@ -104,17 +114,30 @@ public class DataManager {
             pstmt.executeUpdate();
         } catch (SQLException thrownException) {
             System.out.println("Error occurred when inserting values: " + sql);
+            System.out.println(thrownException.getMessage());
         }
     }
 
-    public ArrayList<Object> selectRowWithID(int ID, String tableName) throws SQLException {
-        String query = "SELECT * FROM " + tableName + " WHERE id == " + ID;
+    public void deleteValue(String table, String ID) {
+        String query = "DELETE FROM " + table + " WHERE id = ?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, ID);
+            stmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    public ArrayList<Object> selectRowWithID(String ID, String tableName) throws SQLException {
+        String query = "SELECT * FROM " + tableName + " WHERE id = " + ID;
 
         Statement stmt = connection.createStatement();
         ResultSet dataFull = stmt.executeQuery(query);
 
         while (dataFull.next()) {
-            if (dataFull.getInt("id") == ID) {
+            if (dataFull.getString("id").equals(ID)) {
                 ArrayList<Object> returnedValues = new ArrayList<>();
                 for (int i = 0; i < dataFull.getMetaData().getColumnCount(); i++) {
                     if (dataFull.getMetaData().getColumnTypeName(i + 1).equals("TEXT")) {
