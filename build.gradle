@@ -1,12 +1,15 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")  // spring boot gradle plugin will used for generate jar
+    }
+}
+
 plugins {
     id 'java'
 }
-
-group 'org.example'
-version '1.0-000'
-
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
 
 repositories {
     mavenCentral()
@@ -16,12 +19,28 @@ repositories {
         url 'https://m2.dv8tion.net/releases'
     }
 }
+description = "An Util Bot"
+
+apply plugin: 'java'                                // plugin for java
+apply plugin: 'org.springframework.boot'            // plugin for spring boot framework
+jar {
+    baseName = 'spring-boot-gradle-example'             // jar file name
+    version =  '1.0.0'                                  // application version
+}
 dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")     // web application dependency
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:1.7.0'
     compile("net.dv8tion:JDA:4.2.1_253")
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.34.0'
 }
+sourceCompatibility = 15
+targetCompatibility = 15
+group 'clank-bot'
+version '1.0-0000'
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
 
 test {
     useJUnitPlatform()
