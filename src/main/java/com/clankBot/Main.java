@@ -48,7 +48,7 @@ public class Main {
                 GatewayIntent.GUILD_PRESENCES,
                 GatewayIntent.GUILD_VOICE_STATES,
                 GatewayIntent.GUILD_WEBHOOKS);
-        builder.setToken("ODI5NjQ4MTIwOTAzMjM3NjMy.YG7MBg.fvPaq4zrSnPLq0u0wVJO-RL7EF4")
+        builder.setToken("ODI5NjQ4MTIwOTAzMjM3NjMy.YG7MBg.c1m69Mj6Ee8lnvcXbI1Z8ZR4qDI")
                 .addEventListeners(new CommandListener(this))
                 .setActivity(Activity.listening(prefix + "help"))
                 .setStatus(OnlineStatus.IDLE);
