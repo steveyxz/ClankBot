@@ -24,8 +24,8 @@ description = "An Util Bot"
 apply plugin: 'java'                                // plugin for java
 apply plugin: 'org.springframework.boot'            // plugin for spring boot framework
 jar {
-    baseName = 'spring-boot-gradle-example'             // jar file name
-    version =  '1.0.0'                                  // application version
+    baseName = 'clank-bot'             // jar file name
+    version = '1.0'                               // application version
 }
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")     // web application dependency

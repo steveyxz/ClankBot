@@ -1,1 +1,1 @@
-Worker: java build/classes/java/main/com/clankBot/Main
+Worker: java ./build/classes/java/main/com/clankBot/Main.java
