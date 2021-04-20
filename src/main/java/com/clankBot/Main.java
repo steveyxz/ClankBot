@@ -15,9 +15,12 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 public class Main {
@@ -48,10 +51,16 @@ public class Main {
                 GatewayIntent.GUILD_PRESENCES,
                 GatewayIntent.GUILD_VOICE_STATES,
                 GatewayIntent.GUILD_WEBHOOKS);
-        builder.setToken("ODI5NjQ4MTIwOTAzMjM3NjMy.YG7MBg.c1m69Mj6Ee8lnvcXbI1Z8ZR4qDI")
-                .addEventListeners(new CommandListener(this))
-                .setActivity(Activity.listening(prefix + "help"))
-                .setStatus(OnlineStatus.IDLE);
+        try {
+            byte[] tokenBytes = Objects.requireNonNull(getClass().getResourceAsStream("/token.txt")).readAllBytes();
+            builder.setToken(new String(tokenBytes))
+                    .addEventListeners(new CommandListener(this))
+                    .setActivity(Activity.listening(prefix + "help"))
+                    .setStatus(OnlineStatus.IDLE);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         userDataManager = new DataManager("/data/userData.db");
         serverDataManager = new DataManager("/data/serverData.db");
         try {
