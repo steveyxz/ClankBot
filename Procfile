@@ -1,1 +1,1 @@
-web: java -cp build/classes/java/main/* com.clankBot.Main
+web: java -cp build/classes/java/main com.clankBot.Main
