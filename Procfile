@@ -1,1 +1,1 @@
-web: java -cp build/classes/java/main com.clankBot.Main
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/clank-bot-1.0.jar
