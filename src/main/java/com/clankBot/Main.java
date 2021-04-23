@@ -102,6 +102,9 @@ public class Main {
         permissions.add(Permission.MANAGE_SERVER);
         commandList.add(new ServerPrefixCommand("setprefix", Category.ServerCommand, permissions, "setprefix [prefix]"));
         permissions.add(Permission.KICK_MEMBERS);
-        commandList.add(new KickCommand("kick", Category.ModerationCommand, permissions, "kick [user]"));
+        commandList.add(new KickCommand("kick", Category.ModerationCommand, permissions, "kick [user] {reason}"));
+        permissions.remove(Permission.KICK_MEMBERS);
+        permissions.add(Permission.BAN_MEMBERS);
+        commandList.add(new BanCommand("ban", Category.ModerationCommand, permissions, "ban [user] {reason}"));
     }
 }
