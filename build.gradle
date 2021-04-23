@@ -22,17 +22,33 @@ repositories {
 description = "An Util Bot"
 
 apply plugin: 'java'                                // plugin for java
-apply plugin: 'org.springframework.boot'            // plugin for spring boot framework
+apply plugin: 'org.springframework.boot'
+// plugin for spring boot framework
+
+
 jar {
-    baseName = 'clank-bot'             // jar file name
-    version = '1.0'                               // application version
+    archiveName 'ClankBot.jar'
+
+    manifest {
+        attributes 'Implementation-Title': 'Clank Bot',
+                'Implementation-Version': '1.0.0',
+                'Main-Class': 'com.clankBot.Main'
+    }
+    from {configurations.compile.collect { it.isDirectory() ? zipTree(it) : it}}
 }
+
+task runWithExecJarExecutable(type: Exec) {
+    dependsOn jar
+    group = "Execution"
+    description = "Run the output executable jar with ExecTask"
+    commandLine "java", "-jar", jar.archiveFile.get()
+}
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")     // web application dependency
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:1.7.0'
     compile("net.dv8tion:JDA:4.2.1_253")
-    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.34.0'
+    compile("org.xerial:sqlite-jdbc:3.34.0")
+    compile("org.mongodb:mongodb-driver-sync:4.2.3")
 }
 sourceCompatibility = 15
 targetCompatibility = 15
@@ -45,6 +61,17 @@ build.mustRunAfter clean
 task copyToLib(type: Copy) {
     into "$buildDir/libs"
     from(configurations.compile)
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Clank Bot',
+                'Implementation-Version': '1.0.0',
+                'Main-Class': 'com.clankBot.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? zipTree(it) : it} }
+    with jar
 }
 
 stage.dependsOn(copyToLib)

@@ -22,11 +22,15 @@ public enum Category {
     },
     MiscCommand {
         @Override
-        public String toString() { return "Misc Commands"; }
+        public String toString() {
+            return "Misc Commands";
+        }
     },
     ServerCommand {
         @Override
-        public String toString() { return "Server Commands"; }
+        public String toString() {
+            return "Server Commands";
+        }
     };
 
     public static String convCatToCommand(Category category) {

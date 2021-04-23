@@ -1,10 +1,8 @@
 package com.clankBot;
 
-import com.clankBot.commands.Command;
-import com.clankBot.commands.HelpCommand;
-import com.clankBot.commands.PingCommand;
-import com.clankBot.commands.ServerPrefixCommand;
-import com.clankBot.data.DataManager;
+import com.clankBot.commands.*;
+import com.clankBot.data.DataManagerMongoDB;
+import com.clankBot.data.DataManagerSQLite;
 import com.clankBot.enums.util.Category;
 import com.clankBot.listeners.CommandListener;
 import net.dv8tion.jda.api.JDABuilder;
@@ -15,11 +13,9 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -27,15 +23,13 @@ public class Main {
 
     public static JDABuilder builder;
     public static String prefix = "c-";
- 
+
     public static ArrayList<Command> commandList = new ArrayList<>();
+    public static DataManagerSQLite userDataManagerSQLite;
+    public static DataManagerSQLite serverDataManagerSQLite;
 
-    public static void main(String[] args) throws MalformedURLException, SQLException {
-        new Main();
-    }
-
-    public static DataManager userDataManager;
-    public static DataManager serverDataManager;
+    public static DataManagerMongoDB userDataManagerMongo;
+    public static DataManagerMongoDB serverDataManagerMongo;
 
     public Main() {
         builder = JDABuilder.create(GatewayIntent.GUILD_MESSAGES,
@@ -61,8 +55,12 @@ public class Main {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        userDataManager = new DataManager("/data/userData.db");
-        serverDataManager = new DataManager("/data/serverData.db");
+        //userDataManagerSQLite = new DataManagerSQLite("/data/userData.db");
+        //serverDataManagerSQLite = new DataManagerSQLite("/data/serverData.db");
+
+        userDataManagerMongo = new DataManagerMongoDB("userData");
+        serverDataManagerMongo = new DataManagerMongoDB("serverData");
+
         try {
             builder.build();
         } catch (LoginException e) {
@@ -72,6 +70,20 @@ public class Main {
         initPrefix();
         initCommands();
         initDatabase();
+    }
+
+    public static void main(String[] args) throws MalformedURLException, SQLException {
+        new Main();
+    }
+
+    public static ArrayList<Command> getCommandsForCategory(Category category) {
+        ArrayList<Command> returnList = new ArrayList<>();
+        for (int i = 0; i < commandList.size(); i++) {
+            if (commandList.get(i).getCategory() == category) {
+                returnList.add(commandList.get(i));
+            }
+        }
+        return returnList;
     }
 
     private void initPrefix() {
@@ -89,20 +101,7 @@ public class Main {
         commandList.add(new HelpCommand("help", Category.MiscCommand, permissions, "help [category or command]"));
         permissions.add(Permission.MANAGE_SERVER);
         commandList.add(new ServerPrefixCommand("setprefix", Category.ServerCommand, permissions, "setprefix [prefix]"));
-    }
-
-    public static ArrayList<Command> getCommandsForCategory(Category category) {
-        ArrayList<Command> returnList = new ArrayList<>();
-        for (int i = 0; i < commandList.size(); i++) {
-            if (commandList.get(i).getCategory() == category) {
-                returnList.add(commandList.get(i));
-            }
-        }
-        return returnList;
-    }
-
-    public static Color generateRandomColor() {
-        Random r = new Random();
-        return new Color(r.nextInt(224), r.nextInt(224), r.nextInt(224));
+        permissions.add(Permission.KICK_MEMBERS);
+        commandList.add(new KickCommand("kick", Category.ModerationCommand, permissions, "kick [user]"));
     }
 }

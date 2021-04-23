@@ -1,13 +1,13 @@
 package com.clankBot.commands;
 
 import com.clankBot.enums.util.Category;
+import com.clankBot.util.GlobalMethods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class PingCommand extends Command {
     public PingCommand(String name, Category category, ArrayList<Permission> requiredPermissions, String usage) {
@@ -19,14 +19,8 @@ public class PingCommand extends Command {
         if (e.getAuthor().isBot()) {
             return;
         }
-        for (Permission perm:
-             requiredPermissions) {
-            if (Objects.requireNonNull(e.getMember()).getPermissions().contains(Permission.ADMINISTRATOR)) {
-                break;
-            }
-            if (!Objects.requireNonNull(e.getMember()).getPermissions().contains(perm)) {
-                return;
-            }
+        if (GlobalMethods.hasPermissions(e.getMember(), requiredPermissions)) {
+            return;
         }
         try {
             EmbedBuilder builder = new EmbedBuilder();
