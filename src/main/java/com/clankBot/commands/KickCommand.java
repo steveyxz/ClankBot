@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.HierarchyException;
+import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.lang.reflect.Member;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class KickCommand extends Command {
         if (GlobalMethods.hasPermissions(e.getMember(), requiredPermissions)) {
             return;
         }
+
         EmbedBuilder embedBuilder = new EmbedBuilder();
         if (args.length < 1) {
             EmbedCreator.createErrorEmbed(embedBuilder, "Correct usage is: `" + usage + "`");
@@ -36,10 +39,22 @@ public class KickCommand extends Command {
             return;
         }
 
-        User user = User.fromId(args[0].substring(3, args[0].length() - 1));
-        e.getGuild().kick(Objects.requireNonNull(e.getGuild().getMember(user))).queue();
+        try {
+            User user = User.fromId(args[0].substring(3, args[0].length() - 1));
 
-        embedBuilder.setColor(GlobalMethods.generateRandomColor());
+            if (PermissionUtil.canInteract(Objects.requireNonNull(e.getMember()),
+                    Objects.requireNonNull(e.getGuild().getMember(user)))) {
+                e.getGuild().kick(Objects.requireNonNull(e.getGuild().getMember(user))).queue();
+            } else {
+                e.getChannel().sendMessage(EmbedCreator.createErrorEmbed(embedBuilder, "You cannot kick this member because (s)he is of higher authority than you").build()).queue();
+                return;
+            }
+
+            e.getChannel().sendMessage(EmbedCreator.createSuccessEmbed(embedBuilder, "SUCCESSFUL KICK", "Kick member " + args[0]).build()).queue();
+
+        } catch (HierarchyException error) {
+            e.getChannel().sendMessage(EmbedCreator.createErrorEmbed(embedBuilder, "Bot cannot kick this member: INSUFFICIENT PERMISSIONS").build()).queue();
+        }
     }
 
 }

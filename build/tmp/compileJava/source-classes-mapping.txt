@@ -6,25 +6,25 @@ com/clankBot/enums/util/Category.java
  com.clankBot.enums.util.Category$4
  com.clankBot.enums.util.Category$5
  com.clankBot.enums.util.Category$6
-com/clankBot/util/EmbedCreator.java
- com.clankBot.util.EmbedCreator
+com/clankBot/commands/HelpCommand.java
+ com.clankBot.commands.HelpCommand
 com/clankBot/commands/Command.java
  com.clankBot.commands.Command
 com/clankBot/data/DataManagerSQLite.java
  com.clankBot.data.DataManagerSQLite
 com/clankBot/data/DataManagerMongoDB.java
  com.clankBot.data.DataManagerMongoDB
-com/clankBot/commands/KickCommand.java
- com.clankBot.commands.KickCommand
-com/clankBot/commands/ServerPrefixCommand.java
- com.clankBot.commands.ServerPrefixCommand
-com/clankBot/util/GlobalMethods.java
- com.clankBot.util.GlobalMethods
-com/clankBot/Main.java
- com.clankBot.Main
-com/clankBot/commands/HelpCommand.java
- com.clankBot.commands.HelpCommand
-com/clankBot/commands/PingCommand.java
- com.clankBot.commands.PingCommand
 com/clankBot/listeners/CommandListener.java
  com.clankBot.listeners.CommandListener
+com/clankBot/commands/PingCommand.java
+ com.clankBot.commands.PingCommand
+com/clankBot/util/GlobalMethods.java
+ com.clankBot.util.GlobalMethods
+com/clankBot/util/EmbedCreator.java
+ com.clankBot.util.EmbedCreator
+com/clankBot/commands/ServerPrefixCommand.java
+ com.clankBot.commands.ServerPrefixCommand
+com/clankBot/commands/KickCommand.java
+ com.clankBot.commands.KickCommand
+com/clankBot/Main.java
+ com.clankBot.Main

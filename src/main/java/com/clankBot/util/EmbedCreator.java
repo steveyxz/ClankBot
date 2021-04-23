@@ -12,4 +12,10 @@ public class EmbedCreator {
         return builder;
     }
 
+    public static EmbedBuilder createSuccessEmbed(EmbedBuilder builder, String title, String message) {
+        builder.addField(title, message, false);
+        builder.setColor(Color.green);
+        return builder;
+    }
+
 }
