@@ -1,6 +1,5 @@
 package com.clankBot.commands;
 
-import com.clankBot.Main;
 import com.clankBot.enums.util.Category;
 import com.clankBot.util.EmbedCreator;
 import com.clankBot.util.GlobalMethods;
@@ -13,20 +12,17 @@ import java.util.HashMap;
 
 import static com.clankBot.Main.serverDataManagerMongo;
 
-public class ServerPrefixCommand extends Command {
+public class ServerPrefixCommand extends GuildCommand {
 
 
-    public ServerPrefixCommand(String name, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, category, requiredPermissions, usage);
+    public ServerPrefixCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
+        super(name, description, aliases, category, requiredPermissions, usage);
     }
 
     @Override
     public void run(String[] args, GuildMessageReceivedEvent e) {
 
-        if (e.getAuthor().isBot()) {
-            return;
-        }
-        if (GlobalMethods.hasPermissions(e.getMember(), requiredPermissions)) {
+        if (GlobalMethods.doAllTheChecksForCommand(1, usage, args, requiredPermissions, e)) {
             return;
         }
         EmbedBuilder embedBuilder = new EmbedBuilder();

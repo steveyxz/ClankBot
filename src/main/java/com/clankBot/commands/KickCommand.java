@@ -13,28 +13,20 @@ import net.dv8tion.jda.internal.utils.PermissionUtil;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class KickCommand extends Command {
+public class KickCommand extends GuildCommand {
 
 
-    public KickCommand(String name, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, category, requiredPermissions, usage);
+    public KickCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
+        super(name, description, aliases, category, requiredPermissions, usage);
     }
 
     @Override
     public void run(String[] args, GuildMessageReceivedEvent e) {
-        if (e.getAuthor().isBot()) {
-            return;
-        }
-        if (GlobalMethods.hasPermissions(e.getMember(), requiredPermissions)) {
+        if (GlobalMethods.doAllTheChecksForCommand(1, usage, args, requiredPermissions, e)) {
             return;
         }
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        if (args.length < 1) {
-            EmbedCreator.createErrorEmbed(embedBuilder, "Correct usage is: `" + usage + "`");
-            e.getChannel().sendMessage(embedBuilder.build()).queue();
-            return;
-        }
 
         StringBuilder reason = new StringBuilder();
         if (args.length > 1) {
@@ -70,6 +62,8 @@ public class KickCommand extends Command {
 
         } catch (HierarchyException error) {
             e.getChannel().sendMessage(EmbedCreator.createErrorEmbed(embedBuilder, "Bot cannot kick this member: INSUFFICIENT PERMISSIONS").build()).queue();
+        } catch (IllegalArgumentException error) {
+            e.getChannel().sendMessage(EmbedCreator.createErrorEmbed(embedBuilder, "User is non-existent").build()).queue();
         }
     }
 

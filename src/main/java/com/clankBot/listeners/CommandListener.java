@@ -1,12 +1,17 @@
 package com.clankBot.listeners;
 
 import com.clankBot.Main;
+import com.clankBot.util.GlobalMethods;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+import static com.clankBot.Main.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static com.clankBot.Main.prefix;
@@ -52,7 +57,7 @@ public class CommandListener extends ListenerAdapter {
         //if (message.startsWith((String) serverDataManagerSQLite.selectRowWithID(event.getGuild().getId(), "prefixes").get(1))) {
         if (message.startsWith((String) serverDataManagerMongo.getValueOfKey("serverData", "prefixes", event.getGuild().getId()))) {
             message = message.substring(((String) (serverDataManagerMongo.getValueOfKey("serverData", "prefixes", event.getGuild().getId()))).length());
-            String[] args = message.split(" ");
+            String[] args = message.split("\\s+");
             if (args.length < 1) {
                 return;
             }
@@ -63,12 +68,14 @@ public class CommandListener extends ListenerAdapter {
                 }
                 realArgs[i - 1] = args[i];
             }
-            for (int i = 0; i < Main.commandList.size(); i++) {
-                if (Main.commandList.get(i).getName().equals(args[0])) {
-                    Main.commandList.get(i).run(realArgs, event);
+            for (int i = 0; i < Main.guildCommandList.size(); i++) {
+                if (Arrays.asList(guildCommandList.get(i).getAliases()).contains(args[0])) {
+                    Main.guildCommandList.get(i).run(realArgs, event);
                     break;
                 }
             }
+        } else if (message.startsWith("<@!829648120903237632>")) {
+            event.getChannel().sendMessage("The prefix for this server is `" + GlobalMethods.getPrefixForGuild(event.getGuild()) + "`").queue();
         }
     }
 }

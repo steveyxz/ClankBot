@@ -13,17 +13,14 @@ import net.dv8tion.jda.internal.utils.PermissionUtil;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BanCommand extends Command{
-    public BanCommand(String name, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, category, requiredPermissions, usage);
+public class BanCommand extends GuildCommand {
+    public BanCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
+        super(name, description, aliases, category, requiredPermissions, usage);
     }
 
     @Override
     public void run(String[] args, GuildMessageReceivedEvent e) {
-        if (e.getAuthor().isBot()) {
-            return;
-        }
-        if (GlobalMethods.hasPermissions(e.getMember(), requiredPermissions)) {
+        if (GlobalMethods.doAllTheChecksForCommand(1, usage, args, requiredPermissions, e)) {
             return;
         }
 

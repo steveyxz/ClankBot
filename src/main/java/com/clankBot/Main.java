@@ -12,19 +12,18 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
-import java.awt.*;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
 
 public class Main {
 
     public static JDABuilder builder;
     public static String prefix = "c-";
 
-    public static ArrayList<Command> commandList = new ArrayList<>();
+    public static ArrayList<GuildCommand> guildCommandList = new ArrayList<>();
+    public static ArrayList<GuildCommand> dmCommandList = new ArrayList<>();
     public static DataManagerSQLite userDataManagerSQLite;
     public static DataManagerSQLite serverDataManagerSQLite;
 
@@ -76,11 +75,16 @@ public class Main {
         new Main();
     }
 
-    public static ArrayList<Command> getCommandsForCategory(Category category) {
-        ArrayList<Command> returnList = new ArrayList<>();
-        for (int i = 0; i < commandList.size(); i++) {
-            if (commandList.get(i).getCategory() == category) {
-                returnList.add(commandList.get(i));
+    public static ArrayList<GuildCommand> getCommandsForCategory(Category category) {
+        ArrayList<GuildCommand> returnList = new ArrayList<>();
+        for (int i = 0; i < guildCommandList.size(); i++) {
+            if (guildCommandList.get(i).getCategory() == category) {
+                returnList.add(guildCommandList.get(i));
+            }
+        }
+        for (int i = 0; i < dmCommandList.size(); i++) {
+            if (dmCommandList.get(i).getCategory() == category) {
+                returnList.add(dmCommandList.get(i));
             }
         }
         return returnList;
@@ -97,14 +101,17 @@ public class Main {
     private void initCommands() {
         ArrayList<Permission> permissions = new ArrayList<>();
         permissions.add(Permission.MESSAGE_WRITE);
-        commandList.add(new PingCommand("ping", Category.MiscCommand, permissions, "ping"));
-        commandList.add(new HelpCommand("help", Category.MiscCommand, permissions, "help [category or command]"));
+        guildCommandList.add(new PingCommand("ping", "Returns pong: for testing purposes", new String[] {"ping", "pingg", "bing"}, Category.MiscCommand, permissions, "ping"));
+        guildCommandList.add(new HelpCommand("help", "Shows this command", new String[] {"help", "halp", "commands", "commandlist"}, Category.MiscCommand, permissions, "help [category or command]"));
         permissions.add(Permission.MANAGE_SERVER);
-        commandList.add(new ServerPrefixCommand("setprefix", Category.ServerCommand, permissions, "setprefix [prefix]"));
+        guildCommandList.add(new ServerPrefixCommand("setprefix", "Sets the prefix for this server", new String[] {"setPrefix", "makePrefix", "createPrefix", "prefix", "sp"}, Category.ServerCommand, permissions, "setprefix [prefix]"));
         permissions.add(Permission.KICK_MEMBERS);
-        commandList.add(new KickCommand("kick", Category.ModerationCommand, permissions, "kick [user] {reason}"));
+        guildCommandList.add(new KickCommand("kick", "Kicks a user", new String[] {"kick", "boot", "k"}, Category.ModerationCommand, permissions, "kick [user] {reason}"));
         permissions.remove(Permission.KICK_MEMBERS);
         permissions.add(Permission.BAN_MEMBERS);
-        commandList.add(new BanCommand("ban", Category.ModerationCommand, permissions, "ban [user] {reason}"));
+        guildCommandList.add(new BanCommand("ban", "Bans a user",  new String[] {"ban", "hammer", "hardkick", "b"}, Category.ModerationCommand, permissions, "ban [user] {reason}"));
+        permissions.remove(Permission.BAN_MEMBERS);
+        permissions.add(Permission.MANAGE_ROLES);
+        guildCommandList.add(new MuteCommand("mute", "Mutes a user for a certain time. If user is already muted, it unmutes that user.", new String[] {"mute", "youcanttalk", "m", "moot"}, Category.ModerationCommand, permissions, "mute [user] {time}"));
     }
 }

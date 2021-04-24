@@ -9,17 +9,14 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PingCommand extends Command {
-    public PingCommand(String name, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, category, requiredPermissions, usage);
+public class PingCommand extends GuildCommand {
+    public PingCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
+        super(name, description, aliases, category, requiredPermissions, usage);
     }
 
     @Override
     public void run(String[] args, GuildMessageReceivedEvent e) {
-        if (e.getAuthor().isBot()) {
-            return;
-        }
-        if (GlobalMethods.hasPermissions(e.getMember(), requiredPermissions)) {
+        if (GlobalMethods.doAllTheChecksForCommand(0, usage, args, requiredPermissions, e)) {
             return;
         }
         try {

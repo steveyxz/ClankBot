@@ -7,21 +7,16 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
-public class HelpCommand extends Command {
-    public HelpCommand(String name, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, category, requiredPermissions, usage);
+public class HelpCommand extends GuildCommand {
+    public HelpCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
+        super(name, description, aliases, category, requiredPermissions, usage);
     }
 
     @Override
     public void run(String[] args, GuildMessageReceivedEvent e) {
-        if (e.getAuthor().isBot()) {
-            return;
-        }
-        if (GlobalMethods.hasPermissions(e.getMember(), requiredPermissions)) {
+        if (GlobalMethods.doAllTheChecksForCommand(0, usage, args, requiredPermissions, e)) {
             return;
         }
         EmbedBuilder builder = new EmbedBuilder();
@@ -48,7 +43,7 @@ public class HelpCommand extends Command {
             stringBuilder.append(GlobalMethods.getPrefixForGuild(e.getGuild()));
             stringBuilder.append("` in front of these commands.\n\n");
 
-            for (Command command : Main.getCommandsForCategory(selectedCategory)) {
+            for (GuildCommand command : Main.getCommandsForCategory(selectedCategory)) {
                 stringBuilder.append("`");
                 stringBuilder.append(command.name);
                 stringBuilder.append("`\n");
