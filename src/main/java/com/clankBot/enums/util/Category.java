@@ -72,7 +72,7 @@ public enum Category {
                 return Category.ServerCommand;
             }
         }
-        return Category.MiscCommand;
+        return null;
     }
 
 }

@@ -1,3 +1,9 @@
+com/clankBot/data/DataManagerSQLite.java
+ com.clankBot.data.DataManagerSQLite
+com/clankBot/data/DataManagerMongoDB.java
+ com.clankBot.data.DataManagerMongoDB
+com/clankBot/interfaces/ICommand.java
+ com.clankBot.interfaces.ICommand
 com/clankBot/enums/util/Category.java
  com.clankBot.enums.util.Category
  com.clankBot.enums.util.Category$1
@@ -6,30 +12,28 @@ com/clankBot/enums/util/Category.java
  com.clankBot.enums.util.Category$4
  com.clankBot.enums.util.Category$5
  com.clankBot.enums.util.Category$6
-com/clankBot/util/EmbedCreator.java
- com.clankBot.util.EmbedCreator
-com/clankBot/data/DataManagerMongoDB.java
- com.clankBot.data.DataManagerMongoDB
-com/clankBot/data/DataManagerSQLite.java
- com.clankBot.data.DataManagerSQLite
 com/clankBot/commands/GuildCommand.java
  com.clankBot.commands.GuildCommand
 com/clankBot/commands/PingCommand.java
  com.clankBot.commands.PingCommand
-com/clankBot/commands/KickCommand.java
- com.clankBot.commands.KickCommand
-com/clankBot/commands/BanCommand.java
- com.clankBot.commands.BanCommand
+com/clankBot/commands/Command.java
+ com.clankBot.commands.Command
+com/clankBot/Main.java
+ com.clankBot.Main
+com/clankBot/listeners/CommandListener.java
+ com.clankBot.listeners.CommandListener
 com/clankBot/commands/MuteCommand.java
  com.clankBot.commands.MuteCommand
  com.clankBot.commands.MuteCommand$1
+com/clankBot/commands/KickCommand.java
+ com.clankBot.commands.KickCommand
 com/clankBot/commands/ServerPrefixCommand.java
  com.clankBot.commands.ServerPrefixCommand
 com/clankBot/util/GlobalMethods.java
  com.clankBot.util.GlobalMethods
-com/clankBot/Main.java
- com.clankBot.Main
 com/clankBot/commands/HelpCommand.java
  com.clankBot.commands.HelpCommand
-com/clankBot/listeners/CommandListener.java
- com.clankBot.listeners.CommandListener
+com/clankBot/util/EmbedCreator.java
+ com.clankBot.util.EmbedCreator
+com/clankBot/commands/BanCommand.java
+ com.clankBot.commands.BanCommand
