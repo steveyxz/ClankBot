@@ -89,6 +89,13 @@ public class DataManagerMongoDB {
         return null;
     }
 
+    /**
+     * Gets the value of a key inside a document inside a collection.
+     * @param collectionName THe name of the collection.
+     * @param documentName The name of the document
+     * @param key The key that you are searching for.
+     * @return The value of the key, or null if the collection, document or key does not exist.
+     */
     public Object getValueOfKey(String collectionName, String documentName, String key) {
         //Return null if collection does not exist.
         MongoCollection<Document> collection;
@@ -114,7 +121,7 @@ public class DataManagerMongoDB {
      * in the fact that you can specify starting values for the document.
      *
      * @param documentName   The name of the document being created.
-     * @param collectionName THe name of the collection that the document will be created in.
+     * @param collectionName The name of the collection that the document will be created in.
      * @param values         The values you want to add to the document during creation.
      * @return The document that was created or the document you specified if it already exists.
      */

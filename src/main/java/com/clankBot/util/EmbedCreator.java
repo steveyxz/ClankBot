@@ -2,8 +2,11 @@ package com.clankBot.util;
 
 import com.clankBot.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
+import static com.clankBot.Main.*;
 import java.util.Arrays;
 
 public class EmbedCreator {
@@ -57,6 +60,26 @@ public class EmbedCreator {
 
         builder.setDescription(new String(stringBuilder));
 
+        return builder;
+    }
+
+    public static EmbedBuilder createProfileEmbed(EmbedBuilder builder, String userID, JDA jda) {
+        builder.setColor(GlobalMethods.generateRandomColor());
+        User user = jda.getUserById(userID);
+        assert user != null;
+        builder.setTitle(user.getName() + "'s profile");
+        builder.setThumbnail(user.getAvatarUrl());
+        StringBuilder generalText = new StringBuilder();
+        generalText
+                .append("Coins: ")
+                .append(userDataManagerMongo.getValueOfKey("userData", "coins", userID))
+                .append("\nLevel: ")
+                .append(userDataManagerMongo.getValueOfKey("userData", "levels", userID))
+                .append("\nProgress: ")
+                .append(userDataManagerMongo.getValueOfKey("userData", "currentExp", userID))
+                .append("/")
+                .append(userDataManagerMongo.getValueOfKey("userData", "reqExp", userID));
+        builder.addField("**GENERAL**", new String(generalText), true);
         return builder;
     }
 

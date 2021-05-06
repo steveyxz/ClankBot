@@ -2,9 +2,6 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")  // spring boot gradle plugin will used for generate jar
-    }
 }
 
 plugins {
@@ -18,12 +15,14 @@ repositories {
         name 'm2-dv8tion'
         url 'https://m2.dv8tion.net/releases'
     }
+    maven {
+        name 'Hypixel'
+        url 'https://repo.hypixel.net/repository/Hypixel/'
+    }
 }
 description = "An Util Bot"
 
 apply plugin: 'java'                                // plugin for java
-apply plugin: 'org.springframework.boot'
-// plugin for spring boot framework
 
 
 jar {
@@ -45,10 +44,11 @@ task runWithExecJarExecutable(type: Exec) {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")     // web application dependency
     compile("net.dv8tion:JDA:4.2.1_253")
     compile("org.xerial:sqlite-jdbc:3.34.0")
     compile("org.mongodb:mongodb-driver-sync:4.2.3")
+    compile("net.hypixel:HypixelAPI:3.0.0")
+    compile("org.json:json:20210307")
 }
 sourceCompatibility = 15
 targetCompatibility = 15

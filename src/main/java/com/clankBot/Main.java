@@ -10,12 +10,15 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.hypixel.api.HypixelAPI;
 
 import javax.security.auth.login.LoginException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Main {
 
@@ -29,6 +32,8 @@ public class Main {
 
     public static DataManagerMongoDB userDataManagerMongo;
     public static DataManagerMongoDB serverDataManagerMongo;
+
+    public static HypixelAPI api;
 
     public Main() {
         builder = JDABuilder.create(GatewayIntent.GUILD_MESSAGES,
@@ -66,9 +71,19 @@ public class Main {
             e.printStackTrace();
         }
 
-        initPrefix();
         initCommands();
         initDatabase();
+        initHypixelAPI();
+    }
+
+    private void initHypixelAPI() {
+        String pword = "";
+        try {
+            pword = new String(Objects.requireNonNull(this.getClass().getResourceAsStream("/apiKey.txt")).readAllBytes());
+        } catch (IOException event) {
+            event.printStackTrace();
+        }
+        api = new HypixelAPI(UUID.fromString(pword));
     }
 
     public static void main(String[] args) throws MalformedURLException, SQLException {
@@ -90,21 +105,20 @@ public class Main {
         return returnList;
     }
 
-    private void initPrefix() {
-
-    }
-
     private void initDatabase() {
 
     }
 
     private void initCommands() {
         ArrayList<Permission> permissions = new ArrayList<>();
+        guildCommandList.add(new HypixelCommand("hypixel", "Gives general info about the status of the hypixel server in minecraft", new String[] {"hypixel", "hyp"}, Category.HypixelCommand, permissions, "hypixel"));
+        guildCommandList.add(new HypLoginCommand("hyplogin", "Logs into you hypixel account", new String[] {"hyplogin", "hlogin", "hl"}, Category.HypixelCommand, permissions, "hyplogin [name]"));
+        guildCommandList.add(new ProfileCommand("profile", "Gives your profile inside ClankBot.", new String[] {"profile", "p", "mydata"}, Category.CurrencyCommand, permissions, "profile"));
         permissions.add(Permission.MESSAGE_WRITE);
         guildCommandList.add(new PingCommand("ping", "Returns pong: for testing purposes", new String[] {"ping", "pingg", "bing"}, Category.MiscCommand, permissions, "ping"));
         guildCommandList.add(new HelpCommand("help", "Shows this command", new String[] {"help", "halp", "commands", "commandlist"}, Category.MiscCommand, permissions, "help [category or command]"));
         permissions.add(Permission.MANAGE_SERVER);
-        guildCommandList.add(new ServerPrefixCommand("setprefix", "Sets the prefix for this server", new String[] {"setPrefix", "makePrefix", "createPrefix", "prefix", "sp"}, Category.ServerCommand, permissions, "setprefix [prefix]"));
+        guildCommandList.add(new ServerPrefixCommand("setprefix", "Sets the prefix for this server", new String[] {"setprefix", "makeprefix", "createprefix", "prefix", "sp"}, Category.ServerCommand, permissions, "setprefix [prefix]"));
         permissions.add(Permission.KICK_MEMBERS);
         guildCommandList.add(new KickCommand("kick", "Kicks a user", new String[] {"kick", "boot", "k"}, Category.ModerationCommand, permissions, "kick [user] {reason}"));
         permissions.remove(Permission.KICK_MEMBERS);
