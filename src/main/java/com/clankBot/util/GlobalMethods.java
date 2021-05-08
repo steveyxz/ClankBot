@@ -9,12 +9,9 @@ import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
-import static com.clankBot.Main.guildCommandList;
 import static com.clankBot.Main.serverDataManagerMongo;
 
 public class GlobalMethods {
@@ -32,11 +29,10 @@ public class GlobalMethods {
     /**
      * Does all the checks for a command before runtime
      *
-     * @param usage The usage of the command so it can return it.
-     *
-     * @param args The arguments of the command.
+     * @param usage               The usage of the command so it can return it.
+     * @param args                The arguments of the command.
      * @param requiredPermissions The required permissions for the command.
-     * @param e The GuildMessageReceivedEvent of the command
+     * @param e                   The GuildMessageReceivedEvent of the command
      * @return True if the command failed, false on success.
      */
     public static boolean doAllTheChecksForCommand(int argNo, String usage, String[] args, ArrayList<Permission> requiredPermissions, GuildMessageReceivedEvent e) {
@@ -106,6 +102,37 @@ public class GlobalMethods {
         } catch (HierarchyException error) {
 
         }
+    }
+
+    public static boolean checkIfCooldownFinished(Cooldown cooldown) {
+        return cooldown.checkCompletion();
+    }
+
+    public static String convMillisecondsToString(double millis) {
+        if (millis < 500) {
+            return millis + "ms";
+        }
+        if (millis < 1000) {
+            return millis/1000D + "s";
+        }
+        long milliseconds = (long) (millis % 1000);
+        long secs = (long) (millis / 1000);
+        if (secs < 60) {
+            return secs + "s " + milliseconds + "ms";
+        }
+        long mins = secs / 60;
+        secs = secs % 60;
+        if (mins < 60) {
+            return mins + "m " + secs + "s " + milliseconds + "ms";
+        }
+        long hours = mins / 60;
+        mins = mins % 60;
+        if (hours < 24) {
+            return hours + "h " + mins + "m " + secs + "s";
+        }
+        long days = hours / 24;
+        hours = hours % 24;
+        return days + "d " + hours + "h " + mins + "m " + secs + "s";
     }
 
 }

@@ -91,9 +91,10 @@ public class DataManagerMongoDB {
 
     /**
      * Gets the value of a key inside a document inside a collection.
+     *
      * @param collectionName THe name of the collection.
-     * @param documentName The name of the document
-     * @param key The key that you are searching for.
+     * @param documentName   The name of the document
+     * @param key            The key that you are searching for.
      * @return The value of the key, or null if the collection, document or key does not exist.
      */
     public Object getValueOfKey(String collectionName, String documentName, String key) {

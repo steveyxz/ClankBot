@@ -34,7 +34,9 @@ public enum Category {
     },
     HypixelCommand {
         @Override
-        public String toString() { return "Skyblock Commands"; }
+        public String toString() {
+            return "Hypixel Commands";
+        }
     };
 
     public static String convCatToCommand(Category category) {
@@ -55,7 +57,7 @@ public enum Category {
                 return "server";
             }
             case HypixelCommand -> {
-                return "hypixel";
+                return "hyp";
             }
         }
         return "";
@@ -78,7 +80,7 @@ public enum Category {
             case "server" -> {
                 return Category.ServerCommand;
             }
-            case "hypixel" -> {
+            case "hyp" -> {
                 return Category.HypixelCommand;
             }
         }

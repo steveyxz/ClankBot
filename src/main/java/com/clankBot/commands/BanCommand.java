@@ -1,6 +1,7 @@
 package com.clankBot.commands;
 
 import com.clankBot.enums.util.Category;
+import com.clankBot.util.Cooldown;
 import com.clankBot.util.EmbedCreator;
 import com.clankBot.util.GlobalMethods;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class BanCommand extends GuildCommand {
-    public BanCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, description, aliases, category, requiredPermissions, usage);
+    public BanCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage, Cooldown cooldown) {
+        super(name, description, aliases, category, requiredPermissions, usage, cooldown);
     }
 
     @Override

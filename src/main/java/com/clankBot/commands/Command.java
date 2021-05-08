@@ -1,10 +1,12 @@
 package com.clankBot.commands;
 
 import com.clankBot.enums.util.Category;
+import com.clankBot.util.Cooldown;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class Command {
     protected String name;
@@ -13,14 +15,24 @@ public abstract class Command {
     protected Category category;
     protected ArrayList<Permission> requiredPermissions;
     protected String usage;
+    protected Cooldown cooldown;
 
-    public Command(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
+    public Command(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage, Cooldown cooldown) {
         this.name = name;
         this.category = category;
         this.aliases = aliases;
         this.description = description;
         this.requiredPermissions = requiredPermissions;
         this.usage = usage;
+        this.cooldown = cooldown;
+    }
+
+    public Cooldown getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(Cooldown cooldown) {
+        this.cooldown = cooldown;
     }
 
     public String getDescription() {

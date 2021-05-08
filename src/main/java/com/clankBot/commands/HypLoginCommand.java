@@ -1,19 +1,20 @@
 package com.clankBot.commands;
 
 import com.clankBot.enums.util.Category;
+import com.clankBot.util.Cooldown;
 import com.clankBot.util.GlobalMethods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import static com.clankBot.Main.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class HypLoginCommand extends GuildCommand{
-    public HypLoginCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, description, aliases, category, requiredPermissions, usage);
+import static com.clankBot.Main.userDataManagerMongo;
+
+public class HypLoginCommand extends GuildCommand {
+    public HypLoginCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage, Cooldown cooldown) {
+        super(name, description, aliases, category, requiredPermissions, usage, cooldown);
     }
 
     @Override

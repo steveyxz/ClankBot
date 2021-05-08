@@ -1,6 +1,7 @@
 package com.clankBot.commands;
 
 import com.clankBot.enums.util.Category;
+import com.clankBot.util.Cooldown;
 import com.clankBot.util.GlobalMethods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -9,18 +10,18 @@ import net.hypixel.api.reply.skyblock.BazaarReply;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-import java.util.function.BiConsumer;
 
 import static com.clankBot.Main.api;
 
 public class HypixelCommand extends GuildCommand {
 
-    public HypixelCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, description, aliases, category, requiredPermissions, usage);
+    public HypixelCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage, Cooldown cooldown) {
+        super(name, description, aliases, category, requiredPermissions, usage, cooldown);
     }
 
     @Override
     public void run(String[] args, GuildMessageReceivedEvent e) {
+
         if (GlobalMethods.doAllTheChecksForCommand(0, usage, args, requiredPermissions, e)) {
             return;
         }

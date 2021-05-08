@@ -1,7 +1,11 @@
 package com.clankBot.listeners;
 
 import com.clankBot.Main;
+import com.clankBot.commands.GuildCommand;
+import com.clankBot.util.Cooldown;
+import com.clankBot.util.EmbedCreator;
 import com.clankBot.util.GlobalMethods;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -89,7 +93,14 @@ public class CommandListener extends ListenerAdapter {
             }
             for (int i = 0; i < Main.guildCommandList.size(); i++) {
                 if (Arrays.asList(guildCommandList.get(i).getAliases()).contains((args[0]).toLowerCase())) {
-                    Main.guildCommandList.get(i).run(realArgs, event);
+                    GuildCommand theCommand = guildCommandList.get(i);
+                    if (theCommand.getCooldown().checkCompletion()) {
+                        theCommand.run(realArgs, event);
+                        theCommand.setCooldown(new Cooldown(theCommand.getCooldown().getMilliseconds()));
+                    } else {
+                        EmbedBuilder embedBuilder = new EmbedBuilder();
+                        event.getChannel().sendMessage(EmbedCreator.createCooldownEmbed(embedBuilder, theCommand.getCooldown(), theCommand.getName()).build()).queue();
+                    }
                     break;
                 }
             }

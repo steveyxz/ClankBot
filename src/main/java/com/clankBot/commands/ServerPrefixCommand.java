@@ -1,12 +1,14 @@
 package com.clankBot.commands;
 
 import com.clankBot.enums.util.Category;
+import com.clankBot.util.Cooldown;
 import com.clankBot.util.EmbedCreator;
 import com.clankBot.util.GlobalMethods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,8 +17,8 @@ import static com.clankBot.Main.serverDataManagerMongo;
 public class ServerPrefixCommand extends GuildCommand {
 
 
-    public ServerPrefixCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, description, aliases, category, requiredPermissions, usage);
+    public ServerPrefixCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage, Cooldown cooldown) {
+        super(name, description, aliases, category, requiredPermissions, usage, cooldown);
     }
 
     @Override

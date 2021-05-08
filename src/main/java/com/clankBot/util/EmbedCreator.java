@@ -6,8 +6,9 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
-import static com.clankBot.Main.*;
 import java.util.Arrays;
+
+import static com.clankBot.Main.userDataManagerMongo;
 
 public class EmbedCreator {
 
@@ -20,6 +21,22 @@ public class EmbedCreator {
     public static EmbedBuilder createSuccessEmbed(EmbedBuilder builder, String title, String message) {
         builder.addField(title, message, false);
         builder.setColor(Color.green);
+        return builder;
+    }
+
+    public static EmbedBuilder createCooldownEmbed(EmbedBuilder builder, Cooldown cooldown) {
+        builder.setColor(GlobalMethods.generateRandomColor());
+        builder.addField("This command is on cooldown!", "Please wait " + GlobalMethods.convMillisecondsToString(cooldown.timeTillDone()) + " until you can use this command.", false);
+        return builder;
+    }
+
+    public static EmbedBuilder createCooldownEmbed(EmbedBuilder builder, Cooldown cooldown, String special) {
+        builder.setColor(GlobalMethods.generateRandomColor());
+        if (special.equals("hypixel")) {
+            builder.addField("Whao hypixel API is gonna die soon", "Please wait `" + GlobalMethods.convMillisecondsToString(cooldown.timeTillDone()) + "` until you use this command again", false);
+        } else {
+            builder.addField("This command is on cooldown!", "Please wait `" + GlobalMethods.convMillisecondsToString(cooldown.timeTillDone()) + "` until you can use this command.", false);
+        }
         return builder;
     }
 

@@ -1,7 +1,7 @@
 package com.clankBot.commands;
 
-import static com.clankBot.Main.*;
 import com.clankBot.enums.util.Category;
+import com.clankBot.util.Cooldown;
 import com.clankBot.util.EmbedCreator;
 import com.clankBot.util.GlobalMethods;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -11,8 +11,8 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.ArrayList;
 
 public class ProfileCommand extends GuildCommand {
-    public ProfileCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, description, aliases, category, requiredPermissions, usage);
+    public ProfileCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage, Cooldown cooldown) {
+        super(name, description, aliases, category, requiredPermissions, usage, cooldown);
     }
 
     @Override

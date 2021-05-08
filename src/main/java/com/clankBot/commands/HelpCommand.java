@@ -2,6 +2,7 @@ package com.clankBot.commands;
 
 import com.clankBot.Main;
 import com.clankBot.enums.util.Category;
+import com.clankBot.util.Cooldown;
 import com.clankBot.util.EmbedCreator;
 import com.clankBot.util.GlobalMethods;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -15,8 +16,8 @@ import static com.clankBot.Main.dmCommandList;
 import static com.clankBot.Main.guildCommandList;
 
 public class HelpCommand extends GuildCommand {
-    public HelpCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage) {
-        super(name, description, aliases, category, requiredPermissions, usage);
+    public HelpCommand(String name, String description, String[] aliases, Category category, ArrayList<Permission> requiredPermissions, String usage, Cooldown cooldown) {
+        super(name, description, aliases, category, requiredPermissions, usage, cooldown);
     }
 
     @Override
@@ -59,6 +60,7 @@ public class HelpCommand extends GuildCommand {
 
             if (selectedCategory == null) {
                 e.getChannel().sendMessage(EmbedCreator.createErrorEmbed(builder, "Command or category not found.").build()).queue();
+                return;
             }
 
             StringBuilder stringBuilder = new StringBuilder();
