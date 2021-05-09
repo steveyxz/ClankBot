@@ -29,10 +29,7 @@ hs_err_pid*
 #IDE Settings
 .idea/
 
-build/
-
 #Heroku Build Files
-build
 .gradle
 .idea
 out
