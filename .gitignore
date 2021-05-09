@@ -23,9 +23,6 @@ hs_err_pid*
 
 *.txt
 
-#Build
-build/
-
 #Gradle
 .gradle/
 
