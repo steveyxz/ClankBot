@@ -30,7 +30,6 @@ hs_err_pid*
 .idea/
 
 #Heroku Build Files
-build
 .gradle
 .idea
 out
