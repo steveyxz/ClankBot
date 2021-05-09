@@ -3,10 +3,10 @@ package com.clankBot.commands;
 import com.clankBot.enums.util.Category;
 import com.clankBot.util.Cooldown;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public abstract class Command {
     protected String name;
@@ -25,6 +25,10 @@ public abstract class Command {
         this.requiredPermissions = requiredPermissions;
         this.usage = usage;
         this.cooldown = cooldown;
+    }
+
+    public void resetCooldown(Member member) {
+        cooldown.setTimestamp(0, member.getId(), member.getGuild());
     }
 
     public Cooldown getCooldown() {

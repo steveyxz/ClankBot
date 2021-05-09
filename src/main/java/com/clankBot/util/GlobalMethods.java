@@ -1,18 +1,24 @@
 package com.clankBot.util;
 
+import com.clankBot.commands.Command;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 import static com.clankBot.Main.serverDataManagerMongo;
+import static com.clankBot.Main.userDataManagerMongo;
 
 public class GlobalMethods {
 
@@ -35,19 +41,22 @@ public class GlobalMethods {
      * @param e                   The GuildMessageReceivedEvent of the command
      * @return True if the command failed, false on success.
      */
-    public static boolean doAllTheChecksForCommand(int argNo, String usage, String[] args, ArrayList<Permission> requiredPermissions, GuildMessageReceivedEvent e) {
+    public static boolean doAllTheChecksForCommand(Command command, int argNo, String usage, String[] args, ArrayList<Permission> requiredPermissions, GuildMessageReceivedEvent e) {
         if (e.getAuthor().isBot()) {
+            command.resetCooldown(Objects.requireNonNull(e.getMember()));
             return true;
         }
         EmbedBuilder builder = new EmbedBuilder();
         if (GlobalMethods.doesNotHavePermission(e.getMember(), requiredPermissions)) {
             e.getChannel().sendMessage(EmbedCreator.createErrorEmbed(builder, "Insufficient permissions").build()).queue();
+            command.resetCooldown(Objects.requireNonNull(e.getMember()));
             return true;
         }
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         if (args.length < argNo) {
             e.getChannel().sendMessage(EmbedCreator.createErrorEmbed(embedBuilder, "Correct usage is: `" + usage + "`").build()).queue();
+            command.resetCooldown(Objects.requireNonNull(e.getMember()));
             return true;
         }
 
@@ -104,8 +113,40 @@ public class GlobalMethods {
         }
     }
 
-    public static boolean checkIfCooldownFinished(Cooldown cooldown) {
-        return cooldown.checkCompletion();
+    public static boolean checkIfCooldownFinished(Cooldown cooldown, User user, Guild guild) {
+        return cooldown.checkCompletion(user.getId(), guild);
+    }
+
+    public static Object getValueOfSetting(String settingName, String userID, String type) {
+        JsonParser parser = new JsonParser();
+        String json = (String) userDataManagerMongo.getValueOfKey("userData", "settings", userID);
+        JsonObject object = parser.parse(json).getAsJsonObject();
+        switch (type) {
+            case "string" -> {
+                return object.get(settingName).getAsString();
+            }
+            case "int" -> {
+                return object.get(settingName).getAsInt();
+            }
+            case "double" -> {
+                return object.get(settingName).getAsDouble();
+            }
+            case "long" -> {
+                return object.get(settingName).getAsLong();
+            }
+        }
+        return object.get(settingName).getAsString();
+    }
+
+    public static String prettifyWholeNumber(long number) {
+        String stringValue = Long.toString(number);
+        stringValue = new String(new StringBuilder(stringValue).reverse());
+        for (int i = 0; i < stringValue.toCharArray().length; i++) {
+            if ((i + 1) % 4 == 0) {
+                stringValue = new String(new StringBuilder(stringValue).insert(i, ','));
+            }
+        }
+        return new String(new StringBuilder(stringValue).reverse());
     }
 
     public static String convMillisecondsToString(double millis) {
@@ -113,7 +154,7 @@ public class GlobalMethods {
             return millis + "ms";
         }
         if (millis < 1000) {
-            return millis/1000D + "s";
+            return millis / 1000D + "s";
         }
         long milliseconds = (long) (millis % 1000);
         long secs = (long) (millis / 1000);

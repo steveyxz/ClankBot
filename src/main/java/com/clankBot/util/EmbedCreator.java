@@ -3,6 +3,7 @@ package com.clankBot.util;
 import com.clankBot.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
@@ -24,18 +25,18 @@ public class EmbedCreator {
         return builder;
     }
 
-    public static EmbedBuilder createCooldownEmbed(EmbedBuilder builder, Cooldown cooldown) {
+    public static EmbedBuilder createCooldownEmbed(EmbedBuilder builder, Cooldown cooldown, Member member) {
         builder.setColor(GlobalMethods.generateRandomColor());
-        builder.addField("This command is on cooldown!", "Please wait " + GlobalMethods.convMillisecondsToString(cooldown.timeTillDone()) + " until you can use this command.", false);
+        builder.addField("This command is on cooldown!", "Please wait " + GlobalMethods.convMillisecondsToString(cooldown.timeTillDone(member.getId(), member.getGuild())) + " until you can use this command.", false);
         return builder;
     }
 
-    public static EmbedBuilder createCooldownEmbed(EmbedBuilder builder, Cooldown cooldown, String special) {
+    public static EmbedBuilder createCooldownEmbed(EmbedBuilder builder, Cooldown cooldown, Member member, String special) {
         builder.setColor(GlobalMethods.generateRandomColor());
         if (special.equals("hypixel")) {
-            builder.addField("Whao hypixel API is gonna die soon", "Please wait `" + GlobalMethods.convMillisecondsToString(cooldown.timeTillDone()) + "` until you use this command again", false);
+            builder.addField("Whao hypixel API is gonna die soon", "Please wait `" + GlobalMethods.convMillisecondsToString(cooldown.timeTillDone(member.getId(), member.getGuild())) + "` until you use this command again", false);
         } else {
-            builder.addField("This command is on cooldown!", "Please wait `" + GlobalMethods.convMillisecondsToString(cooldown.timeTillDone()) + "` until you can use this command.", false);
+            builder.addField("This command is on cooldown!", "Please wait `" + GlobalMethods.convMillisecondsToString(cooldown.timeTillDone(member.getId(), member.getGuild())) + "` until you can use this command.", false);
         }
         return builder;
     }

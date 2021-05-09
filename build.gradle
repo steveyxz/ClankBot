@@ -36,13 +36,6 @@ jar {
     from {configurations.compile.collect { it.isDirectory() ? zipTree(it) : it}}
 }
 
-task runWithExecJarExecutable(type: Exec) {
-    dependsOn jar
-    group = "Execution"
-    description = "Run the output executable jar with ExecTask"
-    commandLine "java", "-jar", jar.archiveFile.get()
-}
-
 dependencies {
     compile("net.dv8tion:JDA:4.2.1_253")
     compile("org.xerial:sqlite-jdbc:3.34.0")
