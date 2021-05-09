@@ -18,7 +18,7 @@ public class DataManagerMongoDB {
     public DataManagerMongoDB(String dataBaseName) {
         String pword = "";
         try {
-            pword = new String(Objects.requireNonNull(this.getClass().getResourceAsStream("/mongoDBpword.txt")).readAllBytes());
+            pword = new String(this.getClass().getResourceAsStream("/mongoDBpword.txt").readAllBytes() == null ? new byte[] {} :this.getClass().getResourceAsStream("/mongoDBpword.txt").readAllBytes());
             if (System.getenv("MONGODB") != null) {
                 pword = System.getenv("MONGODB");
             }
