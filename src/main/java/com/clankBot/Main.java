@@ -71,7 +71,11 @@ public class Main {
                 GatewayIntent.GUILD_WEBHOOKS);
         try {
             byte[] tokenBytes = Objects.requireNonNull(getClass().getResourceAsStream("/token.txt")).readAllBytes();
-            builder.setToken(new String(tokenBytes))
+            String theString = new String(tokenBytes);
+            if (System.getenv("TOKEN") != null) {
+                theString = System.getenv("TOKEN");
+            }
+            builder.setToken(theString)
                     .addEventListeners(new CommandListener(this))
                     .setActivity(Activity.listening(prefix + "help"))
                     .setStatus(OnlineStatus.IDLE);
@@ -123,6 +127,9 @@ public class Main {
         String pword = "";
         try {
             pword = new String(Objects.requireNonNull(this.getClass().getResourceAsStream("/apiKey.txt")).readAllBytes());
+            if (System.getenv("APIKEY") != null) {
+                pword = System.getenv("APIKEY");
+            }
         } catch (IOException event) {
             event.printStackTrace();
         }
