@@ -2,10 +2,52 @@ buildscript {
     repositories {
         mavenCentral()
     }
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+    }
 }
 
 plugins {
     id 'java'
+}
+
+apply plugin: 'java'
+// plugin for java
+
+description = "An Util Bot"
+sourceCompatibility = 15
+targetCompatibility = 15
+group 'clank-bot'
+version '1.0'
+
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.clankBot.Main'
+    }
+    baseName = 'all-in-one-jar'
+    from { configurations.compile.collect { it.isDirectory() ? zipTree(it) : it } }
+    with jar
+}
+
+task fatJar(type: Jar) {
+    baseName = project.name + '-all'
+    manifest {
+        attributes 'Implementation-Title': 'Clank Bot',
+                'Implementation-Version': '1.0.0',
+                'Main-Class': 'com.clankBot.Main'
+    }
+    from { configurations.compile.collect { !it.isDirectory() ? it :
+            zipTree(it) }
+    }
+    with jar
+}
+
+dependencies {
+    compile "net.dv8tion:JDA:4.2.1_253"
+    compile "org.xerial:sqlite-jdbc:3.34.0"
+    compile "org.mongodb:mongodb-driver-sync:4.2.3"
+    compile "net.hypixel:HypixelAPI:3.0.0"
+    compile "org.json:json:20210307"
 }
 
 repositories {
@@ -20,10 +62,6 @@ repositories {
         url 'https://repo.hypixel.net/repository/Hypixel/'
     }
 }
-description = "An Util Bot"
-
-apply plugin: 'java'                                // plugin for java
-
 
 jar {
     archiveName 'ClankBot.jar'
@@ -35,39 +73,6 @@ jar {
     }
     from {configurations.compile.collect { it.isDirectory() ? zipTree(it) : it}}
 }
-
-dependencies {
-    compile("net.dv8tion:JDA:4.2.1_253")
-    compile("org.xerial:sqlite-jdbc:3.34.0")
-    compile("org.mongodb:mongodb-driver-sync:4.2.3")
-    compile("net.hypixel:HypixelAPI:3.0.0")
-    compile("org.json:json:20210307")
-}
-sourceCompatibility = 15
-targetCompatibility = 15
-group 'clank-bot'
-version '1.0-0000'
-
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
-
-task copyToLib(type: Copy) {
-    into "$buildDir/libs"
-    from(configurations.compile)
-}
-
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'Clank Bot',
-                'Implementation-Version': '1.0.0',
-                'Main-Class': 'com.clankBot.Main'
-    }
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? zipTree(it) : it} }
-    with jar
-}
-
-stage.dependsOn(copyToLib)
 
 test {
     useJUnitPlatform()
