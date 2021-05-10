@@ -1,15 +1,16 @@
 com/clankBot/commands/currency/ProfileCommand.java
  com.clankBot.commands.currency.ProfileCommand
-com/clankBot/commands/misc/HelpCommand.java
- com.clankBot.commands.misc.HelpCommand
+com/clankBot/commands/misc/PingCommand.java
+ com.clankBot.commands.misc.PingCommand
 com/clankBot/commands/moderation/KickCommand.java
  com.clankBot.commands.moderation.KickCommand
-com/clankBot/util/GlobalMethods.java
- com.clankBot.util.GlobalMethods
-com/clankBot/commands/hypixel/HypBansCommand.java
- com.clankBot.commands.hypixel.HypBansCommand
-com/clankBot/commands/hypixel/HypixelCommand.java
- com.clankBot.commands.hypixel.HypixelCommand
+com/clankBot/interfaces/ICommand.java
+ com.clankBot.interfaces.ICommand
+com/clankBot/commands/moderation/MuteCommand.java
+ com.clankBot.commands.moderation.MuteCommand
+ com.clankBot.commands.moderation.MuteCommand$1
+com/clankBot/data/DataManagerSQLite.java
+ com.clankBot.data.DataManagerSQLite
 com/clankBot/commands/moderation/BanCommand.java
  com.clankBot.commands.moderation.BanCommand
 com/clankBot/commands/GuildCommand.java
@@ -18,20 +19,6 @@ com/clankBot/commands/user/UserSettingsCommand.java
  com.clankBot.commands.user.UserSettingsCommand
 com/clankBot/commands/Command.java
  com.clankBot.commands.Command
-com/clankBot/commands/server/ServerPrefixCommand.java
- com.clankBot.commands.server.ServerPrefixCommand
-com/clankBot/util/EmbedCreator.java
- com.clankBot.util.EmbedCreator
-com/clankBot/commands/misc/PingCommand.java
- com.clankBot.commands.misc.PingCommand
-com/clankBot/commands/hypixel/skyblock/HypBazaarCommand.java
- com.clankBot.commands.hypixel.skyblock.HypBazaarCommand
-com/clankBot/listeners/CommandListener.java
- com.clankBot.listeners.CommandListener
-com/clankBot/commands/hypixel/HypPlayersCommand.java
- com.clankBot.commands.hypixel.HypPlayersCommand
-com/clankBot/Main.java
- com.clankBot.Main
 com/clankBot/enums/util/Category.java
  com.clankBot.enums.util.Category
  com.clankBot.enums.util.Category$1
@@ -42,15 +29,28 @@ com/clankBot/enums/util/Category.java
  com.clankBot.enums.util.Category$6
  com.clankBot.enums.util.Category$7
  com.clankBot.enums.util.Category$8
-com/clankBot/data/DataManagerSQLite.java
- com.clankBot.data.DataManagerSQLite
 com/clankBot/data/DataManagerMongoDB.java
  com.clankBot.data.DataManagerMongoDB
-com/clankBot/interfaces/ICommand.java
- com.clankBot.interfaces.ICommand
-com/clankBot/commands/moderation/MuteCommand.java
- com.clankBot.commands.moderation.MuteCommand
- com.clankBot.commands.moderation.MuteCommand$1
+com/clankBot/commands/misc/HelpCommand.java
+ com.clankBot.commands.misc.HelpCommand
+com/clankBot/util/GlobalMethods.java
+ com.clankBot.util.GlobalMethods
+com/clankBot/commands/hypixel/HypBansCommand.java
+ com.clankBot.commands.hypixel.HypBansCommand
+com/clankBot/commands/hypixel/HypPlayersCommand.java
+ com.clankBot.commands.hypixel.HypPlayersCommand
+com/clankBot/Main.java
+ com.clankBot.Main
+com/clankBot/commands/hypixel/HypixelCommand.java
+ com.clankBot.commands.hypixel.HypixelCommand
+com/clankBot/commands/server/ServerPrefixCommand.java
+ com.clankBot.commands.server.ServerPrefixCommand
+com/clankBot/util/EmbedCreator.java
+ com.clankBot.util.EmbedCreator
+com/clankBot/commands/hypixel/skyblock/HypBazaarCommand.java
+ com.clankBot.commands.hypixel.skyblock.HypBazaarCommand
+com/clankBot/listeners/CommandListener.java
+ com.clankBot.listeners.CommandListener
 com/clankBot/util/Cooldown.java
  com.clankBot.util.Cooldown
 com/clankBot/commands/hypixel/HypLoginCommand.java
