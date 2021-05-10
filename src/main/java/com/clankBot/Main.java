@@ -70,7 +70,10 @@ public class Main {
                 GatewayIntent.GUILD_VOICE_STATES,
                 GatewayIntent.GUILD_WEBHOOKS);
         try {
-            byte[] tokenBytes = getClass().getResourceAsStream("/token.txt").readAllBytes();
+            byte[] tokenBytes = new byte[] {};
+            if (getClass().getResourceAsStream("/token.txt") != null) {
+                tokenBytes = getClass().getResourceAsStream("/token.txt").readAllBytes();
+            }
             String theString = "";
             if (tokenBytes != null) {
                 theString = new String(tokenBytes);
@@ -129,7 +132,11 @@ public class Main {
     private void initHypixelAPI() {
         String pword = "";
         try {
-            pword = new String(this.getClass().getResourceAsStream("/apiKey.txt").readAllBytes() == null ? new byte[] {} : this.getClass().getResourceAsStream("/apiKey.txt").readAllBytes());
+            byte[] bytes = new byte[] {};
+            if (this.getClass().getResourceAsStream("/apiKey.txt") != null) {
+                bytes = this.getClass().getResourceAsStream("/apiKey.txt").readAllBytes();
+            }
+            pword = new String(bytes);
             if (System.getenv("APIKEY") != null) {
                 pword = System.getenv("APIKEY");
             }
