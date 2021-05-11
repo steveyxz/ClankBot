@@ -20,8 +20,14 @@ targetCompatibility = 15
 group 'clank-bot'
 version '1.0'
 
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
+task stage(type: Copy, dependsOn: [clean, build]) {
+    from jar.archivePath
+    into project.rootDir
+    rename {
+        'app.jar'
+    }
+}
+stage.mustRunAfter(clean)
 
 task copyToLib(type: Copy) {
     into "$buildDir/libs"
@@ -82,19 +88,6 @@ jar {
                 'Main-Class': 'com.clankBot.Main'
     }
     from {configurations.compile.collect { it.isDirectory() ? zipTree(it) : it}}
-}
-
-task stage(type: Copy, dependsOn: [clean, build]) {
-    from jar.archivePath
-    into project.rootDir
-    rename {
-        'app.jar'
-    }
-}
-stage.mustRunAfter(clean)
-
-clean << {
-    project.file('app.jar').delete()
 }
 
 test {
