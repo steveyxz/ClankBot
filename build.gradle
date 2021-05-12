@@ -75,14 +75,7 @@ repositories {
 }
 
 jar {
-    archiveName 'ClankBot.jar'
 
-    manifest {
-        attributes 'Implementation-Title': 'Clank Bot',
-                'Implementation-Version': '1.0.0',
-                'Main-Class': 'com.clankBot.Main'
-    }
-    from {configurations.compile.collect { it.isDirectory() ? zipTree(it) : it}}
 }
 
 test {
