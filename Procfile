@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar build/libs/clank-bot-1.0.jar
+web: java -jar build/libs/clank-bot-1.0.jar

@@ -69,7 +69,7 @@ public class HypBazaarCommand extends GuildCommand {
             EmbedBuilder embedBuilder = new EmbedBuilder();
 
             embedBuilder.setColor(GlobalMethods.generateRandomColor());
-            embedBuilder.setFooter("Remember you can change the number of shown values in settings!");
+            embedBuilder.setFooter("Remember you can change the number of shown values in settings! -Sent from legit version");
 
             StringBuilder text = new StringBuilder();
             try {
